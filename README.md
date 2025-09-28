@@ -69,6 +69,10 @@
     ```
     2. Al abrir la consola de desarrollador del navegador, NO deben aparecer mensajes de error 404 (es decir, que las librerías de JavaScript se cargaron correctamente).
 
+![Captura de pantalla 2025-09-27 220930.png](img/Captura%20de%20pantalla%202025-09-27%20220930.png)
+![Captura de pantalla 2025-09-27 221039.png](img/Captura%20de%20pantalla%202025-09-27%20221039.png)
+![Captura de pantalla 2025-09-27 221046.png](img/Captura%20de%20pantalla%202025-09-27%20221046.png)
+
 ## Front-End - Lógica
 
 1. Ahora, va a crear un Módulo JavaScript que, a manera de controlador, mantenga los estados y ofrezca las operaciones requeridas por la vista. Para esto tenga en cuenta el [patrón Módulo de JavaScript](https://toddmotto.com/mastering-the-module-pattern/), y cree un módulo en la ruta static/js/app.js .
@@ -99,6 +103,19 @@
 5. Asocie la operación antes creada (la de app.js) al evento 'on-click' del botón de consulta de la página.
 
 6. Verifique el funcionamiento de la aplicación. Inicie el servidor, abra la aplicación HTML5/JavaScript, y rectifique que al ingresar un usuario existente, se cargue el listado del mismo.
+
+```html
+   mvn clean compile
+   mvn spring-boot:run
+```
+
+      http://localhost:8080/index.html
+
+![Captura de pantalla 2025-09-28 155432.png](img/Captura%20de%20pantalla%202025-09-28%20155432.png)
+![Captura de pantalla 2025-09-28 155448.png](img/Captura%20de%20pantalla%202025-09-28%20155448.png)
+![Captura de pantalla 2025-09-28 155504.png](img/Captura%20de%20pantalla%202025-09-28%20155504.png)
+![Captura de pantalla 2025-09-28 160108.png](img/Captura%20de%20pantalla%202025-09-28%20160108.png)
+![Captura de pantalla 2025-09-28 161721.png](img/Captura%20de%20pantalla%202025-09-28%20161721.png)
 
 ## Para la próxima semana
 
