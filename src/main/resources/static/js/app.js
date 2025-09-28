@@ -1,28 +1,31 @@
+// app.js
 var app = (function () {
 
     var _author = null;
     var _blueprints = [];
 
     function _renderTable() {
-        $("#blueprints-table tbody").empty();
-
+        $("#blueprintsTable tbody").empty();
         _blueprints.map(function (bp) {
             var row = `<tr>
                          <td>${bp.name}</td>
                          <td>${bp.points}</td>
                          <td><button class="btn btn-primary">Open</button></td>
                        </tr>`;
-            $("#blueprints-table tbody").append(row);
+            $("#blueprintsTable tbody").append(row);
         });
 
-        var total = _blueprints.reduce((acc, bp) => acc + bp.points, 0);
-        $("#total-points").text(total);
+        var total = _blueprints.reduce(function (acc, bp) {
+            return acc + bp.points;
+        }, 0);
+
+        $("#totalPoints").text(total);
     }
 
     return {
         setAuthor: function (authorName) {
             _author = authorName;
-            $("#author-name").text(_author + "'s blueprints:");
+            $("#authorName").text(_author + "'s blueprints:");
         },
 
         getAuthor: function () {
@@ -36,6 +39,14 @@ var app = (function () {
             }
 
             apimock.getBlueprintsByAuthor(_author, function (data) {
+                if (!data) {
+                    alert("No se encontraron planos para este autor.");
+                    $("#blueprintsTable tbody").empty();
+                    $("#totalPoints").text(0);
+                    $("#authorName").text("");
+                    return;
+                }
+
                 _blueprints = data.map(function (bp) {
                     return { name: bp.name, points: bp.points.length };
                 });

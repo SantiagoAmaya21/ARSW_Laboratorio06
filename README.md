@@ -104,6 +104,19 @@
 
 6. Verifique el funcionamiento de la aplicación. Inicie el servidor, abra la aplicación HTML5/JavaScript, y rectifique que al ingresar un usuario existente, se cargue el listado del mismo.
 
+```html
+   mvn clean compile
+   mvn spring-boot:run
+```
+
+      http://localhost:8080/index.html
+
+![Captura de pantalla 2025-09-28 155432.png](img/Captura%20de%20pantalla%202025-09-28%20155432.png)
+![Captura de pantalla 2025-09-28 155448.png](img/Captura%20de%20pantalla%202025-09-28%20155448.png)
+![Captura de pantalla 2025-09-28 155504.png](img/Captura%20de%20pantalla%202025-09-28%20155504.png)
+![Captura de pantalla 2025-09-28 160108.png](img/Captura%20de%20pantalla%202025-09-28%20160108.png)
+![Captura de pantalla 2025-09-28 161721.png](img/Captura%20de%20pantalla%202025-09-28%20161721.png)
+
 ## Para la próxima semana
 
 8. A la página, agregue un [elemento de tipo Canvas](https://www.w3schools.com/html/html5_canvas.asp), con su respectivo identificador. Haga que sus dimensiones no sean demasiado grandes para dejar espacio para los otros componentes, pero lo suficiente para poder 'dibujar' los planos.
