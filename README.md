@@ -69,6 +69,10 @@
     ```
     2. Al abrir la consola de desarrollador del navegador, NO deben aparecer mensajes de error 404 (es decir, que las librerías de JavaScript se cargaron correctamente).
 
+![Captura de pantalla 2025-09-27 220930.png](img/Captura%20de%20pantalla%202025-09-27%20220930.png)
+![Captura de pantalla 2025-09-27 221039.png](img/Captura%20de%20pantalla%202025-09-27%20221039.png)
+![Captura de pantalla 2025-09-27 221046.png](img/Captura%20de%20pantalla%202025-09-27%20221046.png)
+
 ## Front-End - Lógica
 
 1. Ahora, va a crear un Módulo JavaScript que, a manera de controlador, mantenga los estados y ofrezca las operaciones requeridas por la vista. Para esto tenga en cuenta el [patrón Módulo de JavaScript](https://toddmotto.com/mastering-the-module-pattern/), y cree un módulo en la ruta static/js/app.js .
