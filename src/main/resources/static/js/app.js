@@ -1,4 +1,10 @@
 // app.js
+
+var useMockData = false;
+
+var api = useMockData ? apimock : apiclient;
+
+
 var app = (function () {
 
     var _author = null;
@@ -65,7 +71,7 @@ var app = (function () {
                 return;
             }
 
-            apiclient.getBlueprintsByAuthor(_author, function (data) {
+            api.getBlueprintsByAuthor(_author, function (data) {
                 if (!data) {
                     alert("No se encontraron planos para este autor.");
                     $("#blueprintsTable tbody").empty();
@@ -83,7 +89,7 @@ var app = (function () {
         },
 
         openBlueprint: function (author, name) {
-            apiclient.getBlueprintsByNameAndAuthor(author, name, function (bp) {
+            api.getBlueprintsByNameAndAuthor(author, name, function (bp) {
                 if (bp) {
                     $("#currentBlueprint").text("Drawing: " + bp.name);
                     _drawBlueprint(bp.points);

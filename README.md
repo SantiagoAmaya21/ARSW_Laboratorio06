@@ -220,6 +220,28 @@ Luego de crear el módulo apiclient.js, cambiamos en el html el llamado a este s
 
 13. Modifique el código de app.js de manera que sea posible cambiar entre el 'apimock' y el 'apiclient' con sólo una línea de código.
 
-
+```java
+   var useMockData = false;
+   var api = useMockData ? apimock : apiclient;
+```
 
 14. Revise la [documentación y ejemplos de los estilos de Bootstrap](https://v4-alpha.getbootstrap.com/examples/) (ya incluidos en el ejercicio), agregue los elementos necesarios a la página para que sea más vistosa, y más cercana al mock dado al inicio del enunciado.
+
+Para probar creamos un nuevo plano en la clase InMemoryBlueprintPersistence, asi:
+```java
+   Point[] housePoints = new Point[]{
+        new Point(100, 300),
+        new Point(200, 300),
+        new Point(200, 200),
+        new Point(150, 150),
+        new Point(100, 200),
+        new Point(100, 300)
+    };
+
+    Blueprint house = new Blueprint("JohnConnor", "house", housePoints);
+    blueprints.put(new Tuple<>(house.getAuthor(), house.getName()), house);
+```
+
+Luego editamos el index.html para que se vea más parecido al de la primera foto. Nos queda de la siguiente manera
+
+![Captura de pantalla 2025-10-02 214746.png](img/Captura%20de%20pantalla%202025-10-02%20214746.png)
