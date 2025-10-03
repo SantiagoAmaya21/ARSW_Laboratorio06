@@ -65,7 +65,7 @@ var app = (function () {
                 return;
             }
 
-            apimock.getBlueprintsByAuthor(_author, function (data) {
+            apiclient.getBlueprintsByAuthor(_author, function (data) {
                 if (!data) {
                     alert("No se encontraron planos para este autor.");
                     $("#blueprintsTable tbody").empty();
@@ -83,7 +83,7 @@ var app = (function () {
         },
 
         openBlueprint: function (author, name) {
-            apimock.getBlueprintsByNameAndAuthor(author, name, function (bp) {
+            apiclient.getBlueprintsByNameAndAuthor(author, name, function (bp) {
                 if (bp) {
                     $("#currentBlueprint").text("Drawing: " + bp.name);
                     _drawBlueprint(bp.points);

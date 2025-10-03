@@ -1,5 +1,9 @@
 ### Escuela Colombiana de Ingeniería
-### Arquiecturas de Software
+### Arquitecturas de Software
+
+## Integrantes
+- Ricardo Andrés Ayala Garzón [lRicardol](https://github.com/lRicardol)
+- Santiago Amaya Zapata [SantiagoAmaya21](https://github.com/SantiagoAmaya21)
 
 ## Construción de un cliente 'grueso' con un API REST, HTML5, Javascript y CSS3. Parte I.
 
@@ -206,6 +210,16 @@ También el método público:
 
 12. Una vez funcione la aplicación (sólo front-end), haga un módulo (llámelo 'apiclient') que tenga las mismas operaciones del 'apimock', pero que para las mismas use datos reales consultados del API REST. Para lo anterior revise [cómo hacer peticiones GET con jQuery](https://api.jquery.com/jquery.get/), y cómo se maneja el esquema de _callbacks_ en este contexto.
 
+Luego de crear el módulo apiclient.js, cambiamos en el html el llamado a este script quitando el llamado a apimock.js, lo mismo hacemos en app.js
+
+```html
+   <script src="js/apiclient.js"></script>
+```
+
+![Captura de pantalla 2025-10-02 203557.png](img/Captura%20de%20pantalla%202025-10-02%20203557.png)
+
 13. Modifique el código de app.js de manera que sea posible cambiar entre el 'apimock' y el 'apiclient' con sólo una línea de código.
+
+
 
 14. Revise la [documentación y ejemplos de los estilos de Bootstrap](https://v4-alpha.getbootstrap.com/examples/) (ya incluidos en el ejercicio), agregue los elementos necesarios a la página para que sea más vistosa, y más cercana al mock dado al inicio del enunciado.
