@@ -10,7 +10,7 @@ var app = (function () {
             var row = `<tr>
                          <td>${bp.name}</td>
                          <td>${bp.points}</td>
-                         <td><button class="btn btn-primary">Open</button></td>
+                         <td><button class="btn btn-primary open-blueprint" data-name="${bp.name}">Open</button></td>
                        </tr>`;
             $("#blueprintsTable tbody").append(row);
         });
@@ -20,6 +20,33 @@ var app = (function () {
         }, 0);
 
         $("#totalPoints").text(total);
+
+        // Evento para los botones "Open"
+        $(".open-blueprint").click(function () {
+            var blueprintName = $(this).data("name");
+            app.openBlueprint(_author, blueprintName);
+        });
+    }
+
+    function _drawBlueprint(points) {
+        var canvas = document.getElementById("blueprintCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // Limpiar canvas antes de dibujar
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (points.length > 0) {
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+
+            for (var i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+
+            ctx.strokeStyle = "#007bff";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
     }
 
     return {
@@ -52,6 +79,17 @@ var app = (function () {
                 });
 
                 _renderTable();
+            });
+        },
+
+        openBlueprint: function (author, name) {
+            apimock.getBlueprintsByNameAndAuthor(author, name, function (bp) {
+                if (bp) {
+                    $("#currentBlueprint").text("Drawing: " + bp.name);
+                    _drawBlueprint(bp.points);
+                } else {
+                    alert("Blueprint no encontrado.");
+                }
             });
         }
     };

@@ -71,7 +71,7 @@
 
 ![Captura de pantalla 2025-09-27 220930.png](img/Captura%20de%20pantalla%202025-09-27%20220930.png)
 ![Captura de pantalla 2025-09-27 221039.png](img/Captura%20de%20pantalla%202025-09-27%20221039.png)
-![Captura de pantalla 2025-09-27 221046.png](img/Captura%20de%20pantalla%202025-09-27%20221046.png)
+![Captura de pantalla 2025-10-02 190126.png](img/Captura%20de%20pantalla%202025-10-02%20190126.png)
 
 ## Front-End - Lógica
 
@@ -121,12 +121,88 @@
 
 8. A la página, agregue un [elemento de tipo Canvas](https://www.w3schools.com/html/html5_canvas.asp), con su respectivo identificador. Haga que sus dimensiones no sean demasiado grandes para dejar espacio para los otros componentes, pero lo suficiente para poder 'dibujar' los planos.
 
+```html
+   <div class="mt-4">
+    <h3>Blueprint Preview</h3>
+    <canvas id="blueprintCanvas" width="600" height="400" style="border:1px solid #000; background-color: #f9f9f9;"></canvas>
+   </div>
+```
+
 9. Al módulo app.js agregue una operación que, dado el nombre de un autor, y el nombre de uno de sus planos dados como parámetros, haciendo uso del método getBlueprintsByNameAndAuthor de apimock.js y de una función _callback_:
     * Consulte los puntos del plano correspondiente, y con los mismos dibuje consectivamente segmentos de recta, haciendo uso [de los elementos HTML5 (Canvas, 2DContext, etc) disponibles](https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_canvas_tut_path)* Actualice con jQuery el campo <div> donde se muestra el nombre del plano que se está dibujando (si dicho campo no existe, agruéguelo al DOM).
 
+Primero, modificamos el canvas en html para que se muestre el nombre del plano que se está mostrando actualmente
+
+```html
+   <div class="mt-4">
+    <h3>Blueprint Preview</h3>
+    <canvas id="blueprintCanvas" width="600" height="400" style="border:1px solid #000; background-color: #f9f9f9;"></canvas>
+    <h4 id="currentBlueprint"></h4>
+   </div>
+```
+
+Ahora agregamos lo isguiente en app.js:
+
+Agregamos el botón y el manejador de evento para abrir el plano
+
+```html
+   <td><button class="btn btn-primary open-blueprint" data-name="${bp.name}">Open</button></td>
+```
+
+```java
+   $(".open-blueprint").click(function () {
+   var blueprintName = $(this).data("name");
+   app.openBlueprint(_author, blueprintName);
+   });
+```
+
+Agregamos la función _drawBlueprint para dibujar los planos en el canvas
+
+```java
+   function _drawBlueprint(points) {
+   var canvas = document.getElementById("blueprintCanvas");
+   var ctx = canvas.getContext("2d");
+
+   // Limpiar canvas antes de dibujar
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+   if (points.length > 0) {
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+
+      for (var i = 1; i < points.length; i++) {
+         ctx.lineTo(points[i].x, points[i].y);
+      }
+
+      ctx.strokeStyle = "#007bff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+   }
+}
+```
+
+También el método público:
+
+```java
+   openBlueprint: function (author, name) {
+   apimock.getBlueprintsByNameAndAuthor(author, name, function (bp) {
+      if (bp) {
+         $("#currentBlueprint").text("Drawing: " + bp.name);
+         _drawBlueprint(bp.points);
+      } else {
+         alert("Blueprint no encontrado.");
+      }
+   });
+}
+```
+
 10. Verifique que la aplicación ahora, además de mostrar el listado de los planos de un autor, permita seleccionar uno de éstos y graficarlo. Para esto, haga que en las filas generadas para el punto 5 incluyan en la última columna un botón con su evento de clic asociado a la operación hecha anteriormente (enviándo como parámetro los nombres correspondientes).
 
+![Captura de pantalla 2025-10-02 195801.png](img/Captura%20de%20pantalla%202025-10-02%20195801.png)
+
 11. Verifique que la aplicación ahora permita: consultar los planos de un auto y graficar aquel que se seleccione.
+
+![Captura de pantalla 2025-10-02 200033.png](img/Captura%20de%20pantalla%202025-10-02%20200033.png)
 
 12. Una vez funcione la aplicación (sólo front-end), haga un módulo (llámelo 'apiclient') que tenga las mismas operaciones del 'apimock', pero que para las mismas use datos reales consultados del API REST. Para lo anterior revise [cómo hacer peticiones GET con jQuery](https://api.jquery.com/jquery.get/), y cómo se maneja el esquema de _callbacks_ en este contexto.
 
