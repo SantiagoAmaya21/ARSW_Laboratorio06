@@ -1,5 +1,9 @@
 ### Escuela Colombiana de Ingeniería
-### Arquiecturas de Software
+### Arquitecturas de Software
+
+## Integrantes
+- Ricardo Andrés Ayala Garzón [lRicardol](https://github.com/lRicardol)
+- Santiago Amaya Zapata [SantiagoAmaya21](https://github.com/SantiagoAmaya21)
 
 ## Construción de un cliente 'grueso' con un API REST, HTML5, Javascript y CSS3. Parte I.
 
@@ -71,7 +75,7 @@
 
 ![Captura de pantalla 2025-09-27 220930.png](img/Captura%20de%20pantalla%202025-09-27%20220930.png)
 ![Captura de pantalla 2025-09-27 221039.png](img/Captura%20de%20pantalla%202025-09-27%20221039.png)
-![Captura de pantalla 2025-09-27 221046.png](img/Captura%20de%20pantalla%202025-09-27%20221046.png)
+![Captura de pantalla 2025-10-02 190126.png](img/Captura%20de%20pantalla%202025-10-02%20190126.png)
 
 ## Front-End - Lógica
 
@@ -121,15 +125,123 @@
 
 8. A la página, agregue un [elemento de tipo Canvas](https://www.w3schools.com/html/html5_canvas.asp), con su respectivo identificador. Haga que sus dimensiones no sean demasiado grandes para dejar espacio para los otros componentes, pero lo suficiente para poder 'dibujar' los planos.
 
+```html
+   <div class="mt-4">
+    <h3>Blueprint Preview</h3>
+    <canvas id="blueprintCanvas" width="600" height="400" style="border:1px solid #000; background-color: #f9f9f9;"></canvas>
+   </div>
+```
+
 9. Al módulo app.js agregue una operación que, dado el nombre de un autor, y el nombre de uno de sus planos dados como parámetros, haciendo uso del método getBlueprintsByNameAndAuthor de apimock.js y de una función _callback_:
     * Consulte los puntos del plano correspondiente, y con los mismos dibuje consectivamente segmentos de recta, haciendo uso [de los elementos HTML5 (Canvas, 2DContext, etc) disponibles](https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_canvas_tut_path)* Actualice con jQuery el campo <div> donde se muestra el nombre del plano que se está dibujando (si dicho campo no existe, agruéguelo al DOM).
 
+Primero, modificamos el canvas en html para que se muestre el nombre del plano que se está mostrando actualmente
+
+```html
+   <div class="mt-4">
+    <h3>Blueprint Preview</h3>
+    <canvas id="blueprintCanvas" width="600" height="400" style="border:1px solid #000; background-color: #f9f9f9;"></canvas>
+    <h4 id="currentBlueprint"></h4>
+   </div>
+```
+
+Ahora agregamos lo isguiente en app.js:
+
+Agregamos el botón y el manejador de evento para abrir el plano
+
+```html
+   <td><button class="btn btn-primary open-blueprint" data-name="${bp.name}">Open</button></td>
+```
+
+```java
+   $(".open-blueprint").click(function () {
+   var blueprintName = $(this).data("name");
+   app.openBlueprint(_author, blueprintName);
+   });
+```
+
+Agregamos la función _drawBlueprint para dibujar los planos en el canvas
+
+```java
+   function _drawBlueprint(points) {
+   var canvas = document.getElementById("blueprintCanvas");
+   var ctx = canvas.getContext("2d");
+
+   // Limpiar canvas antes de dibujar
+   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+   if (points.length > 0) {
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+
+      for (var i = 1; i < points.length; i++) {
+         ctx.lineTo(points[i].x, points[i].y);
+      }
+
+      ctx.strokeStyle = "#007bff";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+   }
+}
+```
+
+También el método público:
+
+```java
+   openBlueprint: function (author, name) {
+   apimock.getBlueprintsByNameAndAuthor(author, name, function (bp) {
+      if (bp) {
+         $("#currentBlueprint").text("Drawing: " + bp.name);
+         _drawBlueprint(bp.points);
+      } else {
+         alert("Blueprint no encontrado.");
+      }
+   });
+}
+```
+
 10. Verifique que la aplicación ahora, además de mostrar el listado de los planos de un autor, permita seleccionar uno de éstos y graficarlo. Para esto, haga que en las filas generadas para el punto 5 incluyan en la última columna un botón con su evento de clic asociado a la operación hecha anteriormente (enviándo como parámetro los nombres correspondientes).
+
+![Captura de pantalla 2025-10-02 195801.png](img/Captura%20de%20pantalla%202025-10-02%20195801.png)
 
 11. Verifique que la aplicación ahora permita: consultar los planos de un auto y graficar aquel que se seleccione.
 
+![Captura de pantalla 2025-10-02 200033.png](img/Captura%20de%20pantalla%202025-10-02%20200033.png)
+
 12. Una vez funcione la aplicación (sólo front-end), haga un módulo (llámelo 'apiclient') que tenga las mismas operaciones del 'apimock', pero que para las mismas use datos reales consultados del API REST. Para lo anterior revise [cómo hacer peticiones GET con jQuery](https://api.jquery.com/jquery.get/), y cómo se maneja el esquema de _callbacks_ en este contexto.
+
+Luego de crear el módulo apiclient.js, cambiamos en el html el llamado a este script quitando el llamado a apimock.js, lo mismo hacemos en app.js
+
+```html
+   <script src="js/apiclient.js"></script>
+```
+
+![Captura de pantalla 2025-10-02 203557.png](img/Captura%20de%20pantalla%202025-10-02%20203557.png)
 
 13. Modifique el código de app.js de manera que sea posible cambiar entre el 'apimock' y el 'apiclient' con sólo una línea de código.
 
+```java
+   var useMockData = false;
+   var api = useMockData ? apimock : apiclient;
+```
+
 14. Revise la [documentación y ejemplos de los estilos de Bootstrap](https://v4-alpha.getbootstrap.com/examples/) (ya incluidos en el ejercicio), agregue los elementos necesarios a la página para que sea más vistosa, y más cercana al mock dado al inicio del enunciado.
+
+Para probar creamos un nuevo plano en la clase InMemoryBlueprintPersistence, asi:
+```java
+   Point[] housePoints = new Point[]{
+        new Point(100, 300),
+        new Point(200, 300),
+        new Point(200, 200),
+        new Point(150, 150),
+        new Point(100, 200),
+        new Point(100, 300)
+    };
+
+    Blueprint house = new Blueprint("JohnConnor", "house", housePoints);
+    blueprints.put(new Tuple<>(house.getAuthor(), house.getName()), house);
+```
+
+Luego editamos el index.html para que se vea más parecido al de la primera foto. Nos queda de la siguiente manera
+
+![Captura de pantalla 2025-10-02 214746.png](img/Captura%20de%20pantalla%202025-10-02%20214746.png)
